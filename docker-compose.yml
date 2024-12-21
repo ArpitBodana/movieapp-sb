@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  service-discovery:
+    image: arpitbodana/movieapp-sb:service-discovery
+    build: ./service-registry
+    ports:
+      - "8761:8761"
+    container_name: "service-discovery-container"
+
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761" ]
+      interval: 30s
+      retries: 5
+      start_period: 40s
+      timeout: 20s
+
+    networks:
+      - movieapp-network
+
+  service-gateway:
+    image: arpitbodana/movieapp-sb:apigateway
+    build: ./service-gateway
+    ports:
+      - "9096:9096"
+    container_name: "api-gateway-container"
+    environment:
+      - MY_SERVICE_URL=http://service-discovery:8761/eureka/
+    networks:
+      - movieapp-network
+    depends_on:
+      service-discovery:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9096/actuator/health" ]
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 15s
+
+  service-comment:
+    image: arpitbodana/movieapp-sb:comment-ms
+    build: ./commentservice
+    ports:
+      - "9090:9090"
+    environment:
+      - MY_SERVICE_URL=http://service-discovery:8761/eureka/
+    networks:
+      - movieapp-network
+    depends_on:
+      service-discovery:
+        condition: service_healthy
+      service-gateway:
+        condition: service_healthy
+
+  service-movie:
+    image: arpitbodana/movieapp-sb:movieservice
+    build: ./movieservice
+    ports:
+      - "9095:9095"
+    environment:
+      - MY_SERVICE_URL=http://service-discovery:8761/eureka/
+    networks:
+      - movieapp-network
+    depends_on:
+      service-discovery:
+        condition: service_healthy
+      service-gateway:
+        condition: service_healthy
+
+networks:
+  movieapp-network:
+    driver: bridge
