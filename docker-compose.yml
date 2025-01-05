@@ -54,7 +54,7 @@ services:
         condition: service_healthy
 
   service-movie:
-    image: arpitbodana/movieapp-sb:movieservice
+    image: arpitbodana/movieapp-sb:movie-ms
     build: ./movieservice
     ports:
       - "9095:9095"
