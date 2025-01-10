@@ -5,7 +5,6 @@ import com.movieshop.service_authentication.models.UserCredentials;
 import com.movieshop.service_authentication.models.UserPrinciple;
 import com.movieshop.service_authentication.repository.UserRepository;
 import com.movieshop.service_authentication.utils.UserNameTakenException;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -48,6 +47,11 @@ public class UserService implements UserDetailsService {
 
     public List<User> getAll(){
         return repo.findAll();
+    }
+
+    public Optional<User> getUserById(String Id){
+        Optional<User> user = repo.findById(Id);
+        return  user;
     }
 
     @Override

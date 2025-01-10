@@ -16,7 +16,7 @@ public class MovieController {
     @Autowired
     private MovieService mvServ;
 
-    @GetMapping("/")
+    @GetMapping("/getall")
     public ResponseEntity<List<Movie>> getMovies(){
         List<Movie> movies = mvServ.getAllMovies();
         System.out.println("Movies fetched: " + movies.size());  // Logging to check if data is being fetched

@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -51,8 +52,8 @@ public class UserController {
 
     }
 
-    @PostMapping("/deleteUser")
-    public ResponseEntity<String> deleteUserById(@RequestBody String userId){
+    @DeleteMapping("/deleteUser/{userId}")
+    public ResponseEntity<String> deleteUserById(@PathVariable String userId){
         return new ResponseEntity<>(service.deleteUser(userId), HttpStatus.OK);
     }
 
@@ -60,4 +61,10 @@ public class UserController {
     public ResponseEntity<List<User>> getAll(){
         return new ResponseEntity<>(service.getAll(),HttpStatus.OK);
     }
+
+    @GetMapping("/getuser/{id}")
+    public ResponseEntity<Optional<User>> getUserById(@PathVariable String id){
+        return new ResponseEntity<>(service.getUserById(id),HttpStatus.OK);
+    }
 }
+

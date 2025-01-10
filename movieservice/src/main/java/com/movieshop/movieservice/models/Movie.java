@@ -29,8 +29,11 @@ public class Movie {
     @JsonProperty
     private Integer releaseYear;
 
-    @Transient
+    @JsonProperty
     private List<Comment> comments;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public Movie(String movieName, String movieDescription,String posterURl,Integer releaseYear) {
         this.id = null;  // Explicitly setting 'id' to null

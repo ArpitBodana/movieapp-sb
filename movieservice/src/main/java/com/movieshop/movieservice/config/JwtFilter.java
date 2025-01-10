@@ -1,8 +1,7 @@
-package com.movieshop.service_authentication.config;
+package com.movieshop.movieservice.config;
 
 
 import com.movieshop.common_utlis.services.JwtUtil;
-import com.movieshop.service_authentication.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +16,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Configuration
 public class JwtFilter extends OncePerRequestFilter {
@@ -26,11 +26,13 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     ApplicationContext context;
 
+    public String token =null;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
-        String token =null;
+
         String username =null;
 
 
@@ -40,9 +42,8 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         if(username !=null && SecurityContextHolder.getContext().getAuthentication()==null){
-            UserDetails userDetails = context.getBean(UserService.class).loadUserByUsername(username);
-            if(jwtService.validateToken(token, userDetails.getUsername())){
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
+            if(jwtService.validateToken(token, username)){
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username,null, new ArrayList<>());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }

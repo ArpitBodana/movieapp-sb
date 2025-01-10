@@ -1,8 +1,7 @@
-package com.movieshop.service_authentication.config;
+package com.movieshop.commentservice.config;
 
 
 import com.movieshop.common_utlis.services.JwtUtil;
-import com.movieshop.service_authentication.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,11 +11,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Configuration
 public class JwtFilter extends OncePerRequestFilter {
@@ -40,9 +39,8 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         if(username !=null && SecurityContextHolder.getContext().getAuthentication()==null){
-            UserDetails userDetails = context.getBean(UserService.class).loadUserByUsername(username);
-            if(jwtService.validateToken(token, userDetails.getUsername())){
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
+            if(jwtService.validateToken(token, username)){
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username,null, new ArrayList<>());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
