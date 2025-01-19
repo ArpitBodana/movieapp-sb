@@ -1,7 +1,8 @@
 package com.movieshop.service_authentication.config;
 
 
-import com.movieshop.common_utlis.services.JwtUtil;
+
+import com.movieshop.service_authentication.service.JwtUtil;
 import com.movieshop.service_authentication.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

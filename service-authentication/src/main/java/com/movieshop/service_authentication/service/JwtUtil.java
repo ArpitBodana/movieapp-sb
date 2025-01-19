@@ -1,4 +1,4 @@
-package com.movieshop.common_utlis.services;
+package com.movieshop.service_authentication.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -1,7 +1,7 @@
 package com.movieshop.movieservice.config;
 
 
-import com.movieshop.common_utlis.services.JwtUtil;
+import com.movieshop.movieservice.services.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

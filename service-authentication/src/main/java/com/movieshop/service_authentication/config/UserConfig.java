@@ -1,7 +1,6 @@
 package com.movieshop.service_authentication.config;
 
 
-
 import com.movieshop.service_authentication.models.User;
 import com.movieshop.service_authentication.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Configuration
 public class UserConfig {
-    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
     @Bean
     public CommandLineRunner userCommandLineRunner(UserRepository repo){
         return args -> {

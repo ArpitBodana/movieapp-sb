@@ -1,7 +1,8 @@
 package com.movieshop.commentservice.config;
 
 
-import com.movieshop.common_utlis.services.JwtUtil;
+
+import com.movieshop.commentservice.services.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,6 +48,5 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request,response);
-
     }
 }

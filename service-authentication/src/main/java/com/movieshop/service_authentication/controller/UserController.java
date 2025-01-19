@@ -1,8 +1,8 @@
 package com.movieshop.service_authentication.controller;
 
-import com.movieshop.common_utlis.services.JwtUtil;
 import com.movieshop.service_authentication.models.User;
 import com.movieshop.service_authentication.models.UserCredentials;
+import com.movieshop.service_authentication.service.JwtUtil;
 import com.movieshop.service_authentication.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*", allowedHeaders = "Authorization")
 @RestController
 @RequestMapping("/auth")
 public class UserController {

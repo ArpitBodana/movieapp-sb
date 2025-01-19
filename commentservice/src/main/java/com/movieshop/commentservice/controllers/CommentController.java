@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*", allowedHeaders = "Authorization")
 @RestController
-@RequestMapping("api/comments")
+@RequestMapping("/comments")
 public class CommentController {
 
     @Autowired

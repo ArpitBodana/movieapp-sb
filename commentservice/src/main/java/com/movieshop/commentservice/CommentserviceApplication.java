@@ -3,7 +3,7 @@ package com.movieshop.commentservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "com.movieshop")
+@SpringBootApplication
 public class CommentserviceApplication {
 
 	public static void main(String[] args) {

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import java.util.List;
 
 
-@FeignClient("COMMENTSERVICE")
+@FeignClient(name="COMMENTSERVICE",configuration =FeignConfig.class)
 public interface CommentInterface {
-    @GetMapping("api/comments/{id}")
+    @GetMapping("/comments/{id}")
     public ResponseEntity<List<Comment>> getAllCommentsOfMovie(@PathVariable String id);
 }
