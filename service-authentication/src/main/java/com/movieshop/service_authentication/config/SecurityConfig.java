@@ -39,11 +39,11 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain scurityFilterChain (HttpSecurity http) throws Exception {
         http.csrf(customizer -> customizer.disable())
+                .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/auth/login","/auth/register").permitAll()
+                        .requestMatchers("/auth/login","/auth/register","/v3/api-docs/**", "/swagger-ui/**", "/v2/api-docs/**", "/swagger-resources/**","/swagger-ui").permitAll()
                         .anyRequest()
                         .authenticated())
-                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 

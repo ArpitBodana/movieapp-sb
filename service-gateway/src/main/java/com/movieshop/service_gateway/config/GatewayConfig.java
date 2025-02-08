@@ -27,6 +27,7 @@ public class GatewayConfig {
                         .header(HttpHeaders.AUTHORIZATION, token)
                         .build();
             }
+
             return chain.filter(exchange);
         };
     }

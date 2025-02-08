@@ -33,8 +33,9 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain scurityFilterChain (HttpSecurity http) throws Exception {
         http.csrf(customizer -> customizer.disable())
+                ///swagger-ui/index.html=> swagger link
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/movie/getall").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/v2/api-docs/**", "/swagger-resources/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .httpBasic(Customizer.withDefaults())

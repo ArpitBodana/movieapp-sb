@@ -2,6 +2,7 @@ package com.movieshop.commentservice.controllers;
 
 import com.movieshop.commentservice.models.Comment;
 import com.movieshop.commentservice.services.CommentService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "*", allowedHeaders = "Authorization")
 @RestController
 @RequestMapping("/comments")
+@Tag(name="Comment APIs",description = "CRUD Operations for Comment services")
 public class CommentController {
 
     @Autowired

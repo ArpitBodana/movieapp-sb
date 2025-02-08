@@ -4,6 +4,7 @@ import com.movieshop.service_authentication.models.User;
 import com.movieshop.service_authentication.models.UserCredentials;
 import com.movieshop.service_authentication.service.JwtUtil;
 import com.movieshop.service_authentication.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "*", allowedHeaders = "Authorization")
 @RestController
 @RequestMapping("/auth")
+@Tag(name="Authentication APIs",description = "CRUD Operations for Auth services")
 public class UserController {
     @Autowired
     private UserService service;

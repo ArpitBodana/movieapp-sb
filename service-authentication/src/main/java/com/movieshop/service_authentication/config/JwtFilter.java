@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Configuration
 public class JwtFilter extends OncePerRequestFilter {
@@ -41,9 +42,9 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         if(username !=null && SecurityContextHolder.getContext().getAuthentication()==null){
-            UserDetails userDetails = context.getBean(UserService.class).loadUserByUsername(username);
-            if(jwtService.validateToken(token, userDetails.getUsername())){
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
+            //UserDetails userDetails = context.getBean(UserService.class).loadUserByUsername(username);
+            if(jwtService.validateToken(token, username)){
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username,null, new ArrayList<>());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }

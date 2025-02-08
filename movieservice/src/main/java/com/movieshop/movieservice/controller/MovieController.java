@@ -2,6 +2,7 @@ package com.movieshop.movieservice.controller;
 
 import com.movieshop.movieservice.models.Movie;
 import com.movieshop.movieservice.services.MovieService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "*", allowedHeaders = "Authorization")
 @RestController
 @RequestMapping("/movie")
+@Tag(name="Movie APIs",description = "CRUD Operations for Movie services")
 public class MovieController {
     @Autowired
     private MovieService mvServ;
