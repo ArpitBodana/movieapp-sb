@@ -5,6 +5,7 @@ import com.movieshop.movieservice.feign.CommentInterface;
 import com.movieshop.movieservice.models.Comment;
 import com.movieshop.movieservice.models.Movie;
 import com.movieshop.movieservice.repositories.MovieRepository;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,13 +37,17 @@ public class MovieService {
     }
 
     public Optional<Movie> getMovieById(String Id){
-
         Optional<Movie> mv =mvRepo.findById(Id);
-        List<Comment> cmnts = commentDao.getAllCommentsOfMovie(Id).getBody();
-        if(mv.isPresent() && !cmnts.isEmpty()){
-            mv.get().setComments(cmnts);
+        try {
+            List<Comment> cmnts = commentDao.getAllCommentsOfMovie(Id).getBody();
+            if(mv.isPresent() && !cmnts.isEmpty()){
+                mv.get().setComments(cmnts);
+            }
+        }catch (Exception e){
+            System.out.println("comment service is down!!!");
         }
         return mv;
     }
+
 
 }

@@ -1,46 +1,27 @@
 package com.movieshop.service_gateway.config;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.tags.Tag;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Arrays;
-import java.util.List;
 
-@OpenAPIDefinition
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+
 @Configuration
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI swaggerConfigs(){
-        return new OpenAPI().info(
-                        new Info()
-                                .title("MovieShop APIs Gateway")
-                                .description("By Arpit Bodana")
-                )
-                .servers(List.of(
-                        new Server()
-                                .url("http://localhost:9096/")
-                                .description("Localhost")))
-                .tags(Arrays.asList(
-                        new Tag().name("MovieShop APIs Documentation"))
-                )
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
-                .components(new Components().addSecuritySchemes(
-                        "bearerAuth",new SecurityScheme()
-                                .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer")
+                .components(new Components()
+                        .addSecuritySchemes("bearerAuth", new SecurityScheme()
                                 .bearerFormat("JWT")
-                ));
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer"))
+                );
     }
-
-
-
 }
+
