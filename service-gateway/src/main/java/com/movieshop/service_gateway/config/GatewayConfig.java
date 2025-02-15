@@ -31,4 +31,5 @@ public class GatewayConfig {
             return chain.filter(exchange);
         };
     }
+
 }

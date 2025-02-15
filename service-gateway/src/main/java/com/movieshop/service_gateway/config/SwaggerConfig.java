@@ -18,9 +18,11 @@ public class SwaggerConfig {
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth", new SecurityScheme()
-                                .bearerFormat("JWT")
                                 .type(SecurityScheme.Type.HTTP)
-                                .scheme("bearer"))
+                                .scheme("bearer")
+                                .bearerFormat("JWT")
+                                .in(SecurityScheme.In.HEADER)
+                                .name("Authorization"))
                 );
     }
 }

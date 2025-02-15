@@ -19,7 +19,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping("/{id}")
+    @GetMapping("getByMovieId/{id}")
     public ResponseEntity<List<Comment>> getAllCommentsOfMovie(@PathVariable String id){
         return ResponseEntity.ok(commentService.getAllCommentsOfMovie(id));
     }
