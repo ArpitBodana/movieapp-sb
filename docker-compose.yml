@@ -26,23 +26,22 @@ services:
     container_name: "api-gateway-container"
     environment:
       - MY_SERVICE_URL=http://service-discovery:8761/eureka/
+      - MOVIE_SERVICE_URL=http://service-movie:9095/
+      - COMMENT_SERVICE_URL=http://service-comment:9090/
+      - AUTH_SERVICE_URL=http://service-authentication:9097/
     networks:
       - movieapp-network
     depends_on:
       service-discovery:
         condition: service_healthy
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9096/actuator/health" ]
-      interval: 30s
-      retries: 5
-      start_period: 30s
-      timeout: 15s
 
-  service-comment:
-    image: arpitbodana/movieapp-sb:comment-ms
-    build: ./commentservice
+
+  service-authentication:
+    image: arpitbodana/movieapp-sb:auth-ms
+    build: ./service-authentication
     ports:
-      - "9090:9090"
+      - "9097:9097"
+    container_name: "service-authentication-container"
     environment:
       - MY_SERVICE_URL=http://service-discovery:8761/eureka/
     networks:
@@ -50,7 +49,20 @@ services:
     depends_on:
       service-discovery:
         condition: service_healthy
-      service-gateway:
+
+
+  service-comment:
+    image: arpitbodana/movieapp-sb:comment-ms
+    build: ./commentservice
+    ports:
+      - "9090:9090"
+    container_name: "service-comment-container"
+    environment:
+      - MY_SERVICE_URL=http://service-discovery:8761/eureka/
+    networks:
+      - movieapp-network
+    depends_on:
+      service-discovery:
         condition: service_healthy
 
   service-movie:
@@ -58,6 +70,7 @@ services:
     build: ./movieservice
     ports:
       - "9095:9095"
+    container_name: "service-movie-container"
     environment:
       - MY_SERVICE_URL=http://service-discovery:8761/eureka/
     networks:
@@ -65,8 +78,7 @@ services:
     depends_on:
       service-discovery:
         condition: service_healthy
-      service-gateway:
-        condition: service_healthy
+
 
 networks:
   movieapp-network:
