@@ -13,6 +13,6 @@ import java.util.List;
 
 @FeignClient(name="COMMENTSERVICE",configuration =FeignConfig.class)
 public interface CommentInterface {
-    @GetMapping("/comments/{id}")
+    @GetMapping("/comments/getByMovieId/{id}")
     public ResponseEntity<List<Comment>> getAllCommentsOfMovie(@PathVariable String id);
 }

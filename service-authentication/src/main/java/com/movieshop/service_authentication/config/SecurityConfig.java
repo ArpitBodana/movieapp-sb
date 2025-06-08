@@ -1,5 +1,6 @@
 package com.movieshop.service_authentication.config;
 
+import jakarta.ws.rs.HttpMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,6 +47,7 @@ public class SecurityConfig{
         http.csrf(customizer -> customizer.disable())
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/login","/auth/register","/v3/api-docs/**", "/swagger-ui/**", "/v2/api-docs/**", "/swagger-resources/**","/swagger-ui").permitAll()
                         .anyRequest()
                         .authenticated())

@@ -1,5 +1,6 @@
 package com.movieshop.commentservice.config;
 
+import jakarta.ws.rs.HttpMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,33 +19,24 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig{
+public class SecurityConfig {
 
-
-//    @Autowired
-//    private UserDetailsService userDetailsService;
 
     @Autowired
     private JwtFilter jwtFilter;
 
-//    @Bean
-//    public AuthenticationProvider authProvider(){
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setUserDetailsService(userDetailsService);
-//        provider.setPasswordEncoder(new BCryptPasswordEncoder(10));
-//        return  provider;
-//    }
 
     @Bean
-    public SecurityFilterChain scurityFilterChain (HttpSecurity http) throws Exception {
+    public SecurityFilterChain scurityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(customizer -> customizer.disable())
                 ///swagger-ui/index.html=> swagger link
                 .authorizeHttpRequests(request -> request
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/v2/api-docs/**", "/swagger-resources/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .httpBasic(Customizer.withDefaults())
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -55,7 +47,7 @@ public class SecurityConfig{
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(Arrays.asList("http://localhost:9096"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE","OPTIONS"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
         config.addExposedHeader("Access-Control-Allow-Origin");
         config.addExposedHeader("Access-Control-Allow-Methods");
@@ -65,10 +57,5 @@ public class SecurityConfig{
         return new CorsFilter(source);
     }
 
-
-//    @Bean
-//    public AuthenticationManager authenticationManager (AuthenticationConfiguration config) throws Exception {
-//        return config.getAuthenticationManager();
-//    }
 
 }
